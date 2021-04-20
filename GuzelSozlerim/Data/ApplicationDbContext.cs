@@ -13,6 +13,15 @@ namespace GuzelSozlerim.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            // composite primary key oluşturduk
+            builder.Entity<KullaniciSoz>().HasKey(x => new { x.GuzelSozId, x.KullaniciId });
+
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<GuzelSoz> GuzelSozler { get; set; }
+        public DbSet<KullaniciSoz> KullaniciSozler { get; set; }
     }
 }
