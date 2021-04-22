@@ -1,6 +1,7 @@
-using GuzelSozlerim.Data;
+﻿using GuzelSozlerim.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,8 @@ namespace GuzelSozlerim
 
             using (var scope = host.Services.CreateScope())
             {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate(); // veritabanını uygulama ilk çalışırken son sürümüne yükseltir
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Kullanici>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 await DataSeed.SeedRollerVeKullanicilarAsync(roleManager, userManager);
